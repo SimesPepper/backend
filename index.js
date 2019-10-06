@@ -2,10 +2,12 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const uuid = require('uuid/v4');
+const helmet = require('helmet')
 const stripe = require('stripe')(process.env.API_KEY);
 
 const server = express();
 
+server.use(helmet())
 server.use(express.json());
 server.use(cors());
 
