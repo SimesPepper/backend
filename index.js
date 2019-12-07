@@ -9,7 +9,7 @@ const server = express();
 
 server.use(helmet())
 server.use(express.json());
-// server.use(cors());
+server.use(cors());
 
 const charge = (token, amount, description) => {
     return stripe.charges.create({
