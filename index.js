@@ -64,6 +64,7 @@ server.post('/checkout', async (req, res) => {
     }catch (error) {
         console.error(error)
         status = 'failure'
+        res.status(201).json({status})
     }
 
     
