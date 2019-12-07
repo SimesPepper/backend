@@ -21,14 +21,12 @@ const charge = (token, amount, description) => {
 }
 
 server.get('/', (req, res) => {
-    console.log(req.body)
     res.send('got it')
 })
 server.post('/checkout', async (req, res) => {
 
     const { amount, token, description, address, email, name } = req.body;
-    console.log(email)
-    console.log(req.body)
+
     try{
 
         const customer = await stripe.customers.create({
@@ -54,17 +52,11 @@ server.post('/checkout', async (req, res) => {
             }
             
         });
-        // charge(token, amount)
 
-        console.log({charge})
-        // console.log(req.body)
-        status = 'success'
-        res.json({ status })
+        res.status(200).json({ receipt: charge.receipt_url })
 
     }catch (error) {
-        console.error(error)
-        status = 'failure'
-        res.status(201).json({status})
+        res.status(201)
     }
 
     
