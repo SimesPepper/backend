@@ -21,12 +21,14 @@ const charge = (token, amount, description) => {
 }
 
 server.get('/', (req, res) => {
+    console.log(req.body)
     res.send('got it')
 })
 server.post('/checkout', async (req, res) => {
 
     const { amount, token, description, address, email, name } = req.body;
-    // console.log(token.token.card)
+    console.log(email)
+    console.log(req.body)
     try{
 
         const customer = await stripe.customers.create({
