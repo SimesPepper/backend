@@ -58,10 +58,7 @@ server.post('/checkout', async (req, res) => {
             
         });
 
-        res
-            .status(200).json({ receipt: charge.receipt_url })
-            .header("Access-Control-Allow-Origin", "https://www.simespepper.com/checkout")
-            .header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        res.status(200).json({ receipt: charge.receipt_url })
 
     }catch (error) {
         res.status(201).json({error})
