@@ -64,7 +64,7 @@ server.post('/checkout', async (req, res) => {
             .header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
     }catch (error) {
-        res.status(201)
+        res.status(201).json({error})
     }
 
     
