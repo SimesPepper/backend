@@ -11,7 +11,7 @@ server.use(helmet())
 server.use(express.json());
 server.use(cors());
 server.use( (req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "https://simespepper.com/checkout"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Origin", "https://simespepper.com"); // update to match the domain you will make the request from
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   });
@@ -60,7 +60,7 @@ server.post('/checkout', async (req, res) => {
 
         res
             .status(200).json({ receipt: charge.receipt_url })
-            .header("Access-Control-Allow-Origin", "https://simespepper.com/checkout")
+            .header("Access-Control-Allow-Origin", "https://simespepper.com")
             .header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
     }catch (error) {
