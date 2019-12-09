@@ -28,7 +28,7 @@ const charge = (token, amount, description) => {
 server.get('/', (req, res) => {
     res.send('got it')
 })
-server.post('/checkout', { 'crossdomain': true }, async (req, res) => {
+server.post('/checkout', async (req, res) => {
 
     const { amount, token, description, address, email, name } = req.body;
 
@@ -58,7 +58,10 @@ server.post('/checkout', { 'crossdomain': true }, async (req, res) => {
             
         });
 
-        res.status(200).json({ receipt: charge.receipt_url })
+        res
+            .status(200).json({ receipt: charge.receipt_url })
+            .header("Access-Control-Allow-Origin", "https://simespepper.com/checkout")
+            .header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
     }catch (error) {
         res.status(201)
