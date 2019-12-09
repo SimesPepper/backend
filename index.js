@@ -10,6 +10,11 @@ const server = express();
 server.use(helmet())
 server.use(express.json());
 server.use(cors());
+server.use( (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "YOUR-DOMAIN.TLD"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
 
 const charge = (token, amount, description) => {
     return stripe.charges.create({
@@ -23,7 +28,7 @@ const charge = (token, amount, description) => {
 server.get('/', (req, res) => {
     res.send('got it')
 })
-server.post('/checkout', async (req, res) => {
+server.post('/checkout', { 'crossdomain': true }, async (req, res) => {
 
     const { amount, token, description, address, email, name } = req.body;
 
