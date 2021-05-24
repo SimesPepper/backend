@@ -7,7 +7,6 @@ const stripe = require('stripe')(process.env.API_KEY);
 
 const server = express();
 
-//Adding comments is tight
 
 server.use(helmet())
 server.use(express.json());
