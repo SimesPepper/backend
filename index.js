@@ -7,7 +7,7 @@ const stripe = require('stripe')(process.env.API_KEY);
 
 const server = express();
 
-
+//hey there
 server.use(helmet())
 server.use(express.json());
 server.use(cors());
