@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const uuid = require('uuid/v4');
 const helmet = require('helmet')
-const stripe = require('stripe')(process.env.API_KEY);
+const stripe = require('stripe')(process.env.API_KEY, { apiVersion: '2020-08-27'});
 
 const server = express();
 
@@ -16,19 +16,44 @@ server.use( (req, res, next) => {
     next();
   });
 
-const charge = (token, amount, description) => {
-    return stripe.charges.create({
-        amount: amount *100,
-        currency: 'USD',
-        source: token.id,
-        description: description
+server.get('/config', (req, res) => {
+    res.send({
+        publishableKey: process.env.API_KEY
     })
-}
-
-server.get('/', (req, res) => {
-    res.send('got it')
 })
+
+server.post('/create-payment-intent', async (req, res) => {
+
+    const { paymentMethodType, currency } = req.body
+
+    const params = {
+        payment_method_types: [paymentMethodType],
+        amount: 100,
+        currency,
+    }
+
+    try{
+        const paymentIntent = await stripe.paymentIntents.create( params )
+        console.log(paymentIntent)
+
+        res
+            .json({
+                clientSecret: paymentIntent.client_secret
+            })
+
+    }catch(error){
+        console.log(error.message)
+        return res.send({
+            message: error.message
+    
+        })
+    }
+})
+
+
 server.post('/checkout', async (req, res) => {
+
+    console.log(req.body.amount)
 
     const { amount, token, description, address, email, name } = req.body;
 
