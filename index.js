@@ -7,6 +7,7 @@ const stripe = require('stripe')(process.env.API_KEY, { apiVersion: '2020-08-27'
 
 const server = express();
 
+
 server.use(helmet())
 server.use(express.json());
 server.use(cors());
