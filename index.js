@@ -25,17 +25,16 @@ server.get('/config', (req, res) => {
 
 server.post('/create-payment-intent', async (req, res) => {
 
-    const { paymentMethodType, currency } = req.body
-
+    const { paymentMethodType, currency, total } = req.body
+    
     const params = {
         payment_method_types: [paymentMethodType],
-        amount: 100,
+        amount: total*100,
         currency,
     }
 
     try{
         const paymentIntent = await stripe.paymentIntents.create( params )
-        console.log(paymentIntent)
 
         res
             .json({
@@ -43,10 +42,10 @@ server.post('/create-payment-intent', async (req, res) => {
             })
 
     }catch(error){
-        console.log(error.message)
+        
         return res.send({
             message: error.message
-    
+
         })
     }
 })
